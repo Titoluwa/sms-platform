@@ -1,0 +1,311 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+// User model - stores user account information
+model User {
+  id                String   @id @default(cuid())
+  email             String   @unique
+  password          String
+  firstName         String
+  lastName          String
+  company           String?
+  phone             String?
+  avatar            String?
+  role              String   @default("user") // user, admin
+  status            String   @default("active") // active, suspended
+  emailVerified     Boolean  @default(false)
+  phoneVerified     Boolean  @default(false)
+  
+  // Relations
+  campaigns         Campaign[]
+  recipients        Recipient[]
+  walletTransactions WalletTransaction[]
+  sessions          Session[]
+  apiKeys           ApiKey[]
+  adminLogs         AdminLog[]
+  settings          UserSettings?
+  wallet            Wallet?
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([email])
+  @@index([status])
+  @@index([role])
+}
+
+// Wallet model - manages user wallet balance
+model Wallet {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  balance           Float    @default(0.00)
+  totalSpent        Float    @default(0.00)
+  totalTopups       Float    @default(0.00)
+  currency          String   @default("USD")
+  lastTopupDate     DateTime?
+  lowBalanceAlert   Boolean  @default(true)
+
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions      WalletTransaction[]
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([userId])
+}
+
+// Session model - manages user sessions
+model Session {
+  id                String   @id @default(cuid())
+  userId            String
+  token             String   @unique
+  expiresAt         DateTime
+  ipAddress         String?
+  userAgent         String?
+  lastActivity      DateTime @default(now())
+  isActive          Boolean  @default(true)
+
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt         DateTime @default(now())
+
+  @@index([userId])
+  @@index([token])
+  @@index([expiresAt])
+}
+
+// Campaign model - stores SMS campaign information
+model Campaign {
+  id                String   @id @default(cuid())
+  userId            String
+  name              String
+  message           String
+  type              String   @default("bulk") // single, bulk
+  status            String   @default("draft") // draft, scheduled, sending, completed, failed
+  scheduledFor      DateTime?
+  startedAt         DateTime?
+  completedAt       DateTime?
+  
+  // Stats
+  totalRecipients   Int      @default(0)
+  sentCount         Int      @default(0)
+  deliveredCount    Int      @default(0)
+  failedCount       Int      @default(0)
+  totalCost         Float    @default(0.00)
+  
+  // Content
+  senderName        String   @default("SMS Campaign")
+  templateId        String?
+  variables         Json?    // For personalization
+
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipients        Recipient[]
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+// Recipient model - stores individual recipients for campaigns
+model Recipient {
+  id                String   @id @default(cuid())
+  campaignId        String
+  userId            String
+  phoneNumber       String
+  firstName         String?
+  lastName          String?
+  email             String?
+  
+  // Delivery tracking
+  status            String   @default("pending") // pending, sent, delivered, failed, read
+  sentAt            DateTime?
+  deliveredAt       DateTime?
+  readAt            DateTime?
+  failureReason     String?
+  dlr               String?  // Delivery report
+  
+  // Cost tracking
+  messageCost       Float    @default(0.15)
+
+  campaign          Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  message           Message?
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([campaignId])
+  @@index([userId])
+  @@index([status])
+  @@index([phoneNumber])
+}
+
+// Message model - individual SMS messages
+model Message {
+  id                String   @id @default(cuid())
+  recipientId       String   @unique
+  campaignId        String?
+  phoneNumber       String
+  content           String
+  messageId         String?  // Provider's message ID
+  status            String   @default("pending")
+  
+  // Delivery info
+  sentAt            DateTime?
+  deliveredAt       DateTime?
+  failedAt          DateTime?
+  failureCode       String?
+  
+  // Cost
+  cost              Float    @default(0.15)
+  
+  recipient         Recipient @relation(fields: [recipientId], references: [id], onDelete: Cascade)
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([phoneNumber])
+  @@index([status])
+  @@index([recipientId])
+}
+
+// WalletTransaction model - tracks all wallet transactions
+model WalletTransaction {
+  id                String   @id @default(cuid())
+  walletId          String
+  userId            String
+  type              String   // topup, deduction, refund
+  amount            Float
+  currency          String   @default("USD")
+  description       String?
+  
+  // Payment info
+  stripePaymentId   String?
+  stripeInvoiceId   String?
+  paymentMethod     String?  // card, bank_transfer, paypal
+  
+  // Status
+  status            String   @default("completed") // pending, completed, failed
+  failureReason     String?
+  
+  wallet            Wallet   @relation(fields: [walletId], references: [id], onDelete: Cascade)
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt         DateTime @default(now())
+  
+  @@index([walletId])
+  @@index([userId])
+  @@index([type])
+  @@index([createdAt])
+}
+
+// ApiKey model - manages API keys for users
+model ApiKey {
+  id                String   @id @default(cuid())
+  userId            String
+  name              String
+  key               String   @unique
+  secret            String   @unique
+  isActive          Boolean  @default(true)
+  lastUsedAt        DateTime?
+  permissions       String[] @default(["sms.send", "wallet.read"])
+  
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([userId])
+  @@index([key])
+}
+
+// AdminLog model - tracks admin actions
+model AdminLog {
+  id                String   @id @default(cuid())
+  adminId           String
+  action            String   // user_suspended, user_activated, system_config_changed, etc
+  targetUserId      String?
+  targetType        String?  // user, campaign, transaction, etc
+  targetId          String?
+  changes           Json?    // Track what changed
+  reason            String?
+  ipAddress         String?
+  
+  admin             User     @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  createdAt         DateTime @default(now())
+
+  @@index([adminId])
+  @@index([action])
+  @@index([createdAt])
+}
+
+// UserSettings model - stores user preferences
+model UserSettings {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  
+  // Notification settings
+  emailNotifications Boolean @default(true)
+  smsNotifications  Boolean @default(false)
+  lowBalanceAlert   Boolean @default(true)
+  campaignUpdates   Boolean @default(true)
+  
+  // Privacy settings
+  dataRetention     String   @default("30days") // 7days, 30days, 90days, unlimited
+  allowAnalytics    Boolean @default(true)
+  
+  // Preferences
+  timezone          String   @default("UTC")
+  dateFormat        String   @default("MM/DD/YYYY")
+  theme             String   @default("light")
+
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([userId])
+}
+
+// Template model - stores message templates
+model Template {
+  id                String   @id @default(cuid())
+  name              String
+  category          String?
+  content           String
+  variables         String[] // placeholder variables like {{firstName}}, {{code}}
+  description       String?
+  isPublic          Boolean  @default(false)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([category])
+  @@index([name])
+}
+
+// SystemSettings model - global system configuration
+model SystemSettings {
+  id                String   @id @default(cuid())
+  key               String   @unique
+  value             Json
+  description       String?
+
+  updatedAt         DateTime @updatedAt
+  updatedBy         String?
+
+  @@index([key])
+}
