@@ -29,15 +29,15 @@ The application will start at `http://localhost:3000`
 ## Demo Accounts
 
 ### User Account
-```
-Email: demo@example.com
+
+```Email: demo@example.com
 Password: demo123
 Wallet Balance: $50.00
 ```
 
 ### Admin Account
-```
-Email: admin@example.com
+
+```Email: admin@example.com
 Password: admin123
 Role: Administrator
 ```
@@ -45,9 +45,11 @@ Role: Administrator
 ## Main Features
 
 ### 1. Landing Page
+
 Visit the home page to see marketing content, pricing, and features.
 
 ### 2. Sign Up
+
 - Click "Get Started" on landing page
 - Fill registration form with:
   - Full name
@@ -60,6 +62,7 @@ Visit the home page to see marketing content, pricing, and features.
 ### 3. Send SMS
 
 #### Single SMS
+
 1. Go to Dashboard → Send SMS
 2. Click "Send Single SMS" tab
 3. Enter phone number with country code (e.g., +1234567890)
@@ -68,6 +71,7 @@ Visit the home page to see marketing content, pricing, and features.
 6. Cost: $0.10 per SMS
 
 #### Bulk SMS
+
 1. Go to Dashboard → Send SMS
 2. Click "Send Bulk SMS" tab
 3. Enter campaign name
@@ -77,6 +81,7 @@ Visit the home page to see marketing content, pricing, and features.
 7. See results and cost breakdown
 
 ### 4. View Campaigns
+
 1. Go to Dashboard → Campaigns
 2. See all your campaigns with:
    - Recipients count
@@ -88,11 +93,13 @@ Visit the home page to see marketing content, pricing, and features.
 ### 5. Manage Wallet
 
 #### View Balance
+
 - Check balance on dashboard
 - See transaction history
 - Export transactions
 
 #### Add Funds
+
 1. Go to Dashboard → Wallet
 2. Choose a pricing plan
 3. Click "Add Funds"
@@ -100,6 +107,7 @@ Visit the home page to see marketing content, pricing, and features.
 5. Funds added to wallet (demo)
 
 ### 6. Account Settings
+
 1. Go to Dashboard → Settings
 2. View account information
 3. Access API keys
@@ -107,6 +115,7 @@ Visit the home page to see marketing content, pricing, and features.
 5. Manage security settings
 
 ### 7. Admin Panel (Admin Only)
+
 1. Login with admin account
 2. Go to Dashboard → Admin Panel
 3. View platform statistics
@@ -153,13 +162,17 @@ console.log(`New balance: $${result.remainingBalance / 100}`);
 ## Customization
 
 ### Change Platform Name
+
 Edit these files:
+
 - `/components/dashboard-sidebar.tsx` - Line 3
 - `/app/page.tsx` - Line 8
 - Update `app/layout.tsx` metadata
 
 ### Change Colors
+
 Edit `/app/globals.css`:
+
 ```css
 :root {
   --primary: oklch(0.45 0.25 250); /* Change blue to your color */
@@ -169,6 +182,7 @@ Edit `/app/globals.css`:
 ```
 
 ### Add New Features
+
 1. Create new API route in `/app/api/`
 2. Add page in `/app/dashboard/`
 3. Update sidebar navigation in `/components/dashboard-sidebar.tsx`
@@ -177,6 +191,7 @@ Edit `/app/globals.css`:
 ## Testing
 
 ### Test Single SMS
+
 1. Login with demo account
 2. Go to Send SMS
 3. Enter test number: +1555555555
@@ -184,6 +199,7 @@ Edit `/app/globals.css`:
 5. Check results and balance deduction
 
 ### Test Bulk SMS
+
 1. Login with demo account
 2. Go to Send SMS → Bulk SMS
 3. Enter test numbers (10 numbers)
@@ -191,6 +207,7 @@ Edit `/app/globals.css`:
 5. View campaign in Campaigns page
 
 ### Test Wallet
+
 1. Login with demo account
 2. Go to Wallet
 3. Choose any plan
@@ -198,7 +215,8 @@ Edit `/app/globals.css`:
 5. Check balance increased
 
 ### Test Admin
-1. Logout and login with admin@example.com
+
+1. Logout and login with `admin@example.com`
 2. Go to Admin Panel
 3. View all users and stats
 4. Search and filter users
@@ -207,22 +225,26 @@ Edit `/app/globals.css`:
 ## Troubleshooting
 
 ### Session Not Persisting
+
 - Check browser localStorage is enabled
 - Clear localStorage and login again
 - Check browser console for errors
 
 ### SMS Sending Fails
+
 - Verify phone number format (+country code)
 - Check wallet balance is sufficient
 - Check message is not empty
 - Message must be ≤160 characters
 
 ### Payment Not Working
+
 - This uses mock payment (demo)
 - In production, integrate real Stripe
 - Balance should update after 2 seconds
 
 ### Can't Access Admin Panel
+
 - Make sure logged in with admin account
 - Admin panel only visible to admin role
 
@@ -231,8 +253,8 @@ Edit `/app/globals.css`:
 Currently using mock services - no env vars needed.
 
 For production, add to `.env.local`:
-```
-# Database
+
+```# Database
 DATABASE_URL=postgresql://...
 
 # Stripe
@@ -251,6 +273,7 @@ SMTP_PORT=...
 ## Database Reset
 
 To reset mock data to initial state:
+
 1. Clear browser localStorage
 2. Restart dev server
 3. Login again - fresh demo data
@@ -265,6 +288,7 @@ To reset mock data to initial state:
 ## Support
 
 For issues or questions:
+
 1. Check this setup guide
 2. Review README.md
 3. Check browser console for errors

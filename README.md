@@ -9,6 +9,7 @@ SMSHub is a comprehensive bulk SMS platform that allows businesses to send SMS c
 ## Features
 
 ### User Features
+
 - **User Authentication**: Secure sign up and login with persistent sessions
 - **Single SMS**: Send individual SMS messages to specific phone numbers
 - **Bulk SMS Campaigns**: Send SMS to thousands of contacts simultaneously
@@ -18,12 +19,14 @@ SMSHub is a comprehensive bulk SMS platform that allows businesses to send SMS c
 - **Transaction History**: View all credits/debits with timestamps
 
 ### Admin Features
+
 - **User Management**: View, manage, and monitor all platform users
 - **System Health Monitoring**: Check API, database, and gateway status
 - **Analytics Dashboard**: Platform-wide metrics and revenue tracking
 - **User Suspension**: Manage account status for compliance
 
 ### Platform Features
+
 - **Professional Landing Page**: Marketing website with pricing and features
 - **Mock SMS Gateway**: Simulated SMS delivery with realistic success rates
 - **Mock Payments**: Stripe integration simulation for testing
@@ -41,8 +44,7 @@ SMSHub is a comprehensive bulk SMS platform that allows businesses to send SMS c
 
 ## Project Structure
 
-```
-/app
+```/app
   /api
     /auth          # Authentication endpoints
     /sms           # SMS sending endpoints
@@ -90,24 +92,29 @@ The application will be available at `http://localhost:3000`
 ### Demo Credentials
 
 **User Account:**
+
 - Email: `demo@example.com`
 - Password: `demo123`
 - Wallet Balance: $50.00
 
 **Admin Account:**
+
 - Email: `admin@example.com`
 - Password: `admin123`
 
 ## Key Pages & Features
 
 ### Landing Page (`/`)
+
 Marketing website showcasing platform features, pricing, and benefits. Includes call-to-action buttons directing to login/signup.
 
 ### Authentication
+
 - **Login** (`/auth/login`): Sign in with email and password
 - **Register** (`/auth/register`): Create new account with company information
 
 ### Dashboard
+
 - **Home** (`/dashboard`): Overview with stats, recent campaigns, and quick actions
 - **Send SMS** (`/dashboard/send`): Single or bulk SMS sending interface
 - **Campaigns** (`/dashboard/campaigns`): View and manage all campaigns
@@ -117,16 +124,19 @@ Marketing website showcasing platform features, pricing, and benefits. Includes 
 
 ## API Endpoints
 
-### Authentication
+### Authentication APIs
+
 - `POST /api/auth/login` - User login
 - `POST /api/auth/register` - User registration
 - `GET /api/auth/validate` - Validate session token
 
 ### SMS Sending
+
 - `POST /api/sms/send` - Send single SMS
 - `POST /api/sms/bulk` - Send bulk SMS campaign
 
 ### Wallet & Payments
+
 - `POST /api/wallet/topup` - Initiate payment
 - `POST /api/wallet/confirm` - Confirm payment
 
@@ -143,16 +153,19 @@ Marketing website showcasing platform features, pricing, and benefits. Includes 
 ## Mock Services
 
 ### Mock SMS Gateway
+
 - Simulates SMS delivery with 95% success rate
 - Returns message IDs for tracking
 - Deducts from wallet balance
 
 ### Mock Payment System
+
 - Simulates Stripe checkout process
 - No real payments processed
 - Adds credits to wallet balance
 
 ### Mock Data Store
+
 - In-memory database with users, campaigns, messages
 - Pre-populated with demo data
 - Persists during session
@@ -166,28 +179,36 @@ Marketing website showcasing platform features, pricing, and benefits. Includes 
 ## Customization
 
 ### Changing Colors
+
 Edit `/app/globals.css` CSS variables:
+
 - `--primary` - Main brand color (currently blue)
 - `--accent` - Accent color
 - `--background` - Background color
 - `--foreground` - Text color
 
 ### Adding Real Database
+
 Replace `/lib/mockData.ts` with Neon or Supabase integration:
+
 ```typescript
 // Example: Supabase integration
 import { createClient } from '@supabase/supabase-js'
 ```
 
 ### Integrating Real Stripe
+
 Replace `/app/api/wallet/confirm/route.ts` with actual Stripe webhook handling:
+
 ```typescript
 import Stripe from 'stripe'
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
 ```
 
 ### Adding Real SMS Gateway
+
 Replace `MockSmsGateway` in `/lib/mockData.ts` with Twilio or AWS SNS:
+
 ```typescript
 import twilio from 'twilio'
 const client = twilio(accountSid, authToken)
@@ -196,12 +217,14 @@ const client = twilio(accountSid, authToken)
 ## Security Considerations
 
 ### Current Implementation (Demo)
+
 - Simple password comparison (no hashing)
 - Tokens stored in localStorage
 - In-memory session storage
 - Mock data with no persistence
 
 ### Production Improvements Needed
+
 - Hash passwords with bcrypt
 - Use secure HTTP-only cookies for tokens
 - Implement proper session management
@@ -232,45 +255,30 @@ const client = twilio(accountSid, authToken)
 ## Deployment
 
 ### Vercel (Recommended)
+
 ```bash
 vercel deploy
 ```
 
 ### Docker
+
 ```bash
 docker build -t smshub .
 docker run -p 3000:3000 smshub
 ```
 
 ### Manual
+
 ```bash
 pnpm build
 pnpm start
 ```
 
-## Future Enhancements
-
-- [ ] Real database integration (Supabase/Neon)
-- [ ] Real Stripe payments
-- [ ] Real SMS gateway (Twilio/AWS SNS)
-- [ ] Advanced analytics and reporting
-- [ ] Customer segmentation
-- [ ] A/B testing for campaigns
-- [ ] Two-factor authentication
-- [ ] API rate limiting
-- [ ] Webhook support
-- [ ] Message templates
-- [ ] Scheduled campaigns
-- [ ] Contact management
-- [ ] Team collaboration
-- [ ] White-label options
-- [ ] Multi-language support
-
 ## Support & Documentation
 
 For API documentation, visit `/api-docs` (when deployed)
 
-For issues and feature requests, contact support@smshub.io
+For issues and feature requests, contact `support@smshub.io`
 
 ## License
 
