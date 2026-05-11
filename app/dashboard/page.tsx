@@ -42,6 +42,7 @@ export default function DashboardPage() {
       name: 'Summer Sale Campaign',
       sent: 5234,
       delivered: 5198,
+      senderId: "ALLOY",
       failed: 36,
       date: '2024-04-20',
       status: 'completed',
@@ -51,6 +52,7 @@ export default function DashboardPage() {
       name: 'Newsletter - April',
       sent: 3821,
       delivered: 3805,
+      senderId: "Starlight",
       failed: 16,
       date: '2024-04-15',
       status: 'completed',
@@ -60,6 +62,7 @@ export default function DashboardPage() {
       name: 'Flash Deal Alert',
       sent: 2156,
       delivered: 2145,
+      senderId: "FlashSMS",
       failed: 11,
       date: '2024-04-10',
       status: 'completed',
@@ -87,7 +90,7 @@ export default function DashboardPage() {
         {stats.map((stat, index) => {
           const Icon = stat.icon;
           return (
-            <Card key={index} className="p-6 border border-border hover:border-primary/50 transition">
+            <Card key={index.toFixed()} className="p-6 border border-border hover:border-primary/50 transition">
               <div className="flex items-center justify-between mb-4">
                 <Icon className="w-6 h-6 text-primary/60" />
                 <span className="text-sm text-foreground/60">{stat.change}</span>
@@ -116,8 +119,8 @@ export default function DashboardPage() {
             <thead className="border-b border-border bg-secondary/30">
               <tr>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-foreground/70">Campaign</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-foreground/70">Sender ID</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-foreground/70">Sent</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-foreground/70">Delivered</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-foreground/70">Failed</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-foreground/70">Rate</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-foreground/70">Date</th>
@@ -129,8 +132,8 @@ export default function DashboardPage() {
                 return (
                   <tr key={campaign.id} className="hover:bg-secondary/30 transition">
                     <td className="px-6 py-4 text-sm font-medium text-foreground">{campaign.name}</td>
+                    <td className="px-6 py-4 text-sm text-primary">{campaign.senderId}</td>
                     <td className="px-6 py-4 text-sm text-foreground/70">{campaign.sent}</td>
-                    <td className="px-6 py-4 text-sm text-foreground/70">{campaign.delivered}</td>
                     <td className="px-6 py-4 text-sm text-destructive">{campaign.failed}</td>
                     <td className="px-6 py-4 text-sm font-semibold text-foreground">{deliveryRate}%</td>
                     <td className="px-6 py-4 text-sm text-foreground/70">{campaign.date}</td>

@@ -6,7 +6,8 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/authContext';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { MessageSquare, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
+import Image from 'next/image';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -27,7 +28,7 @@ export default function RegisterPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     setError('');
 
@@ -59,15 +60,18 @@ export default function RegisterPage() {
     }
   };
 
+  // const appName = process.env.NEXT_PUBLIC_APP_NAME ?? 'SMS';
+  const appLogo = process.env.NEXT_PUBLIC_SITE_LOGO ?? '/logo/intarvaslogowhite.svg';
+
   return (
     <main className="min-h-screen flex items-center justify-center px-4 py-8 bg-secondary/30">
       <Card className="w-full max-w-md border border-border">
         <div className="p-8">
           <div className="flex items-center justify-center gap-2 mb-8">
-            <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-              <MessageSquare className="w-6 h-6 text-primary-foreground" />
+            <div className="w-full h-20 p-2 px-5 flex items-center justify-center">
+              <Image src={appLogo} alt="Logo" width={100} height={100} className='w-72 object-contain' loading="eager" />
             </div>
-            <span className="font-bold text-xl text-foreground">SMSHub</span>
+            {/* <span className="font-bold text-xl text-foreground">{appName}</span> */}
           </div>
 
           <div className="mb-8">

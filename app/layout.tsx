@@ -1,45 +1,30 @@
 import type { Metadata } from 'next'
-import { Orbitron, Audiowide } from 'next/font/google'
+import { Noto_Sans } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { AuthProvider } from '@/lib/authContext'
 import { ThemeProvider } from '@/components/theme-provider'
 import './globals.css'
 
-const orbitron = Orbitron({
+const notoSans = Noto_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800', '900'],
-  variable: '--font-orbitron',
-  display: 'swap',
-})
-
-const audiowide = Audiowide({
-  subsets: ['latin'],
-  weight: '400',
-  variable: '--font-audiowide',
+  variable: '--font-noto-sans',
   display: 'swap',
 })
 
 export const metadata: Metadata = {
   title: 'SMS Campaign Platform',
   description: 'Professional SMS marketing platform for bulk campaigns',
-  // generator: 'v0.app',
-  // icons: {
-  //   icon: [
-  //     {
-  //       url: '/icon-light-32x32.png',
-  //       media: '(prefers-color-scheme: light)',
-  //     },
-  //     {
-  //       url: '/icon-dark-32x32.png',
-  //       media: '(prefers-color-scheme: dark)',
-  //     },
-  //     {
-  //       url: '/icon.svg',
-  //       type: 'image/svg+xml',
-  //     },
-  //   ],
-  //   apple: '/apple-icon.png',
-  // },
+  icons: {
+    icon: [
+      {
+        url: "/logo/intarvasfavicon.svg",
+        type: "image/svg+xml",
+      },
+    ],
+    shortcut: "/logo/intarvasfavicon.svg",
+    apple: "/logo/intarvasfavicon.svg",
+  },
 }
 
 export default function RootLayout({
@@ -48,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`bg-background ${orbitron.variable} ${audiowide.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`bg-background ${notoSans.variable}`} suppressHydrationWarning>
       <body className="font-sans antialiased">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <AuthProvider>

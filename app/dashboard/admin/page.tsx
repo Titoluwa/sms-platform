@@ -92,7 +92,7 @@ export default function AdminDashboardPage() {
   });
 
   return (
-    <ProtectedRoute requiredRole="admin">
+    <ProtectedRoute requiredRole={user?.role}>
       <div className="p-6 md:p-8 space-y-8">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Admin Dashboard</h1>
@@ -104,7 +104,7 @@ export default function AdminDashboardPage() {
           {adminStats.map((stat, index) => {
             const Icon = stat.icon;
             return (
-              <Card key={index} className="p-6 border border-border">
+              <Card key={index + 1} className="p-6 border border-border">
                 <div className="flex items-center justify-between mb-4">
                   <Icon className="w-6 h-6 text-primary/60" />
                   <span className="text-sm text-green-600 font-medium">{stat.change}</span>

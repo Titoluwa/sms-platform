@@ -1,11 +1,7 @@
 import { ProtectedRoute } from '@/components/protected-route';
 import { DashboardSidebar } from '@/components/dashboard-sidebar';
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function DashboardLayout({children}: Readonly<{ children: React.ReactNode; }>) {
   return (
     <ProtectedRoute>
       <div className="flex h-screen bg-background">
