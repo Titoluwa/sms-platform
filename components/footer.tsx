@@ -43,7 +43,7 @@ export default function Footer() {
                 </div>
                 <div className="border-t border-border pt-8 flex flex-col sm:flex-row items-center justify-between">
                     <div className="flex items-center gap-2 mb-4 sm:mb-0">
-                        <Image src={appLogo} alt="Logo" width={100} height={100} />
+                        <Image src={appLogo} alt="Logo" width={100} height={100} loading="eager"/>
                         {/* <span className="font-semibold text-foreground">{appName}</span> */}
                     </div>
                     <p className="text-foreground/60 text-sm">© {new Date().getFullYear()} {appName}. All rights reserved.</p>
