@@ -26,8 +26,9 @@ export default function LandingPage() {
                   Reach Your Customers Instantly
                 </h1>
                 <p className="text-lg sm:text-xl text-foreground/60 mt-4 sm:mt-6 max-w-xl text-balance">
-                  Send bulk SMS campaigns in seconds. Reach millions of customers with industry-leading delivery rates. Fast, reliable, affordable.
+                  Send bulk SMS campaigns in seconds. Reach millions of customers with industry-leading delivery rates.
                 </p>
+                <p className="text-lg sm:text-xl text-[#002F6C] mt-3 max-w-xl text-balance">Fast, reliable, affordable.</p>
               </div>
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <Link href="/auth/register">

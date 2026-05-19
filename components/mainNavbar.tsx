@@ -18,8 +18,8 @@ export default function Navbar() {
                         {/* <span className="font-bold text-xl text-foreground">{appName}</span> */}
                     </div>
                     <div className="hidden md:flex items-center gap-8">
-                        <a href="#features" className="text-foreground/70 hover:text-foreground transition">Features</a>
-                        <a href="#stats" className="text-foreground/70 hover:text-foreground transition">Stats</a>
+                        {/* <a href="#features" className="text-foreground/70 hover:text-foreground transition">Features</a>
+                        <a href="#stats" className="text-foreground/70 hover:text-foreground transition">Stats</a> */}
                         {/* <a href="#about" className="text-foreground/70 hover:text-foreground transition">About</a> */}
                     </div>
                     <div className="flex items-center gap-3">

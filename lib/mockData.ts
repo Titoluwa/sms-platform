@@ -60,11 +60,11 @@ export interface PricingPlan {
 
 // In-memory data stores
 class MockDataStore {
-  private users: Map<string, User> = new Map();
-  private campaigns: Map<string, Campaign> = new Map();
-  private messages: Map<string, Message> = new Map();
-  private transactions: Map<string, WalletTransaction> = new Map();
-  private sessions: Map<string, string> = new Map(); // sessionToken -> userId
+  private readonly users: Map<string, User> = new Map();
+  private readonly campaigns: Map<string, Campaign> = new Map();
+  private readonly messages: Map<string, Message> = new Map();
+  private readonly transactions: Map<string, WalletTransaction> = new Map();
+  private readonly sessions: Map<string, string> = new Map(); // sessionToken -> userId
 
   constructor() {
     this.initializeDefaultData();
@@ -80,7 +80,7 @@ class MockDataStore {
       phone: '+1234567890',
       company: 'Demo Company',
       walletBalance: 5000,
-      apiKey: 'sk_test_' + Math.random().toString(36).substr(2, 32),
+      apiKey: 'sk_test_' + Math.random().toString(36).substring(2, 34),
       role: 'user',
       createdAt: new Date(),
     };
@@ -94,7 +94,7 @@ class MockDataStore {
       phone: '+9876543210',
       company: 'SMS Platform',
       walletBalance: 0,
-      apiKey: 'sk_admin_' + Math.random().toString(36).substr(2, 32),
+      apiKey: 'sk_admin_' + Math.random().toString(36).substring(2, 34),
       role: 'admin',
       createdAt: new Date(),
     };
@@ -216,7 +216,7 @@ export class MockSmsGateway {
     console.log(`[SMS] ${phoneNumber}: ${message} - ${success ? 'SUCCESS' : 'FAILED'}`);
     return {
       success,
-      messageId: `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      messageId: `msg_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
     };
   }
 
